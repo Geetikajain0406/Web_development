@@ -1,0 +1,44 @@
+import {useState} from "react";
+function App(){
+  const[user, userin]=useState("");
+  const[error, err]=useState("");
+  const[app, ap]=useState("");
+  function onsubmit(e){
+    e.preventDefault();
+    if(
+      user===""
+    ){
+      err("enter input please");
+      return;
+    }
+    err("");
+    ap({user});
+  }
+
+  return(
+    <div>
+    <form onSubmit={onsubmit}>
+    <h1>To Do App</h1>
+    <label>Enter your list:</label>
+    <input
+    type="text"
+    value={user}
+    onChange={(e)=>userin(e.target.value)}
+    ></input>
+    <br />  <br />
+    <button type="submit">submit</button>
+    </form>
+  
+  
+  {error && <p>{error}</p>}
+  {app &&(
+    <div>
+  <h1>Your list is:</h1>  
+  <p>{app.user}</p>
+  </div>
+  )}
+  
+    </div>
+);
+}
+export default App;
