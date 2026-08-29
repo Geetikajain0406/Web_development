@@ -1,0 +1,94 @@
+Geetika Jain
+2405170067
+BCA3
+Lab eval -1
+
+
+Ans 1
+function EmployeeCard(props){
+    return(
+        <div>
+            <p>Employee Name:{props.name}</p>
+            <p>Employee Department:{props.dept}</p>
+            <p>{props.perfscore >= 80 ?(
+                <p>Good Performance</p>
+            ):(
+                <p>Needs Improvement</p>
+            )
+            }</p>
+            <p>{props.projectcom >= 5 ?(
+                <p>Target Achieved</p>
+            ):(
+                <p>Target Pending</p>
+            )
+            }</p>
+        </div>
+    );
+}
+export default EmployeeCard;
+
+
+import EmployeeCard from "./components/EmployeeCard";
+function App(){
+  return(
+    <div>
+  <h1>Employee Detail</h1>
+  <EmployeeCard
+  name="geetika"
+  dept="CSE"
+  perfscore={100}
+  projectcom={4}
+  />
+  <EmployeeCard
+  name="geet"
+  dept="MECH"
+  perfscore={10}
+  projectcom={9}
+  />
+  <EmployeeCard
+  name="Aashika"
+  dept="Civil"
+  perfscore={160}
+  projectcom={8}
+  />
+  </div>
+  );
+}
+export default App;
+
+
+function Product(props){
+    return(
+        <div>
+            <p>Product Name:{props.name}</p>
+             <p>Product price:{props.pr}</p>
+        </div>
+    );
+}
+export default Product;
+
+
+import {useState} from "react";
+import Product from "./components/Product";
+function App(){
+  const[count,Setcount]=useState(0);
+  const[price,Setpr]=useState(10000);
+  return(
+    <div>
+  <Product
+  name="Computer"
+  pr={10000}
+  />
+  <p>Quantity:{count}</p>
+  <button onClick={()=>Setcount(count+1)}>+</button>
+  <button onClick={()=>Setcount(count-1)}>-</button>
+  <button onClick={()=>Setcount(1)}>Reset</button>
+  <p>Total price:{count*price}</p>
+  </div>
+  );
+}
+export default App;
+
+
+
+
