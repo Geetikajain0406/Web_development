@@ -1,0 +1,105 @@
+import {useState} from "react";
+function App(){
+  const[name,setname] = useState("");
+  const[roll,setroll] = useState("");
+  const[address,setaddress] = useState("");
+  const[gender,setgender] = useState("");
+  const[course,setcourse] = useState("");
+  const[email,setemail] = useState("");
+  const[error,seterror] = useState("");
+  const[stud,setstud] = useState(null);
+
+  function handlesubmit(e){
+    e.preventDefault();
+    if(name === ""||
+      roll === ""||
+      address === ""||
+      gender === ""||
+      course === ""||
+      email === ""
+    ){
+      seterror("enter all info")
+      return;
+    }
+    seterror("")
+
+  
+  setstud({
+    name,roll,address,gender,course,email
+  });
+}
+return(
+  <div>
+    <h1>Student Information</h1>
+    <br/> <br/>
+    <form onSubmit={handlesubmit}>
+      <label>Name :</label>
+      <input 
+      type="text"
+      value={name}
+      onChange = {(e) => setname(e.target.value)}
+      ></input>
+       <br/> <br/>
+      <label>Roll :</label>
+      <input 
+      type="text"
+      value={roll}
+      onChange = {(e) => setroll(e.target.value)}
+      ></input>
+       <br/> <br/>
+      <label>Address :</label>
+      <textarea 
+      value={address}
+      onChange = {(e) => setaddress(e.target.value)}
+      ></textarea>
+       <br/> <br/>
+      <label>Gender :</label>
+      <input 
+      type="radio"
+      value="Female"
+      name="gender"
+      onChange = {(e) => setgender(e.target.value)}
+      ></input>Female
+      <input 
+      type="radio"
+      value="Male"
+      name="gender"
+      onChange = {(e) => setgender(e.target.value)}
+      ></input>Male
+      <br/> <br/>
+      <label>Course :</label>
+      <select
+      value={course}
+      onChange = {(e) => setcourse(e.target.value)}>
+        <option value="">Select</option>
+        <option value="BCA">BCA</option>
+        <option value="BTECH">BTECH</option>
+        <option value="BBA">BBA</option>
+        <option value="BCOM">BCOM</option>
+      </select>
+      <br/><br/>
+      <label>Email :</label>
+      <input
+      type="email"
+      value={email}
+      onChange = {(e) => setemail(e.target.value)}></input>
+      <button type="submit">Submit</button>
+
+    </form>
+    {error && <p>{error}</p>}
+    {stud &&
+    (<div>
+      <p>Name :{stud.name}</p>
+      <p>roll :{stud.roll}</p>
+      <p>Gender :{stud.gender}</p>
+      <p> email:{stud.email}</p>
+      <p>Address :{stud.address}</p>
+      <p>Course :{stud.course}</p>
+    </div>
+  )}
+
+
+  </div>
+);
+}
+export default App;
