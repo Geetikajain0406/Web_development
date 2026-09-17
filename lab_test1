@@ -1,0 +1,86 @@
+import Product from "./Component/Product";
+import { useState } from "react";
+function App(){
+  const[title,settitle]=useState("");
+  const[priority,setprior]=useState("");
+  const[status ,setstatus]=useState("");
+  const[error,seterror]=useState("");
+  const[task,settask]=useState("");
+
+
+  function handlesubmit(e){
+    e.preventDefault();
+    if (
+      title === ""||
+      priority === ""||
+      status === ""
+    ){
+    seterror("enter all information");
+    return;
+    }
+    seterror("");
+    settask({title,priority,status});
+  }
+  return(
+    <div>
+      <form onSubmit={handlesubmit}>
+        <h1>Task Creation form</h1>
+        <Product
+        name="frontend"></Product>
+        <br/><br/>
+        <label>Task title:</label>
+        <input
+        type="text"
+        value={title}
+        onChange={(e)=>settitle(e.target.value)}
+        />
+        <br/><br/>
+        <label>Priority</label>
+        <select
+       value ={priority}
+        onChange={(e)=>setprior(e.target.value)}>
+          <option value="low">low</option>
+        <option value="medium">medium</option>
+         <option value="high"><h3>High priority task</h3></option>
+        </select>
+       <br/><br/>
+       <label>Status</label>
+       <input
+       type="radio"
+       value="pending"
+       name="status"
+         onChange={(e)=>setstatus(e.target.value)}/>pending
+
+        <input
+       type="radio"
+       value="completed"
+       name="status"
+         onChange={(e)=>setstatus(e.target.value)}/>completed
+         <br/><br/>
+       <button type="submit">Submit</button>
+      </form>
+   
+    {error && <p> {error}</p>}
+ 
+    {task &&(
+      <div>
+      <p>Task Title :{task.title}</p>
+      <p>Priority :{task.priority}</p>
+      <p>Status : {task.status}</p>
+      </div>
+    )}
+  </div>
+  );
+
+
+}
+export default App;
+
+
+function Product(props){
+    return(
+        <div><p>Project Name:{props.name}</p></div>
+   
+    );
+}
+export default Product;
