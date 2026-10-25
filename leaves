@@ -1,0 +1,66 @@
+const express = require('express');
+const router = express.Router();
+let leaves =[];
+let id =1;
+
+//add 
+router.post('/',(req,res)=>{
+    const{name,dept,type,days,status}= req.body;
+    if(!name || !dept || !type || days <=0 ){
+        return res.status(400).json({message: 'Invalid data'});
+    }
+    let leave = {id: id++,name,dept,type ,days,status:'pending'};
+    leaves.push(leave);
+    res.status(201).json(leave);
+});
+// get all leaves
+router.get('/', (req,res)=>{
+    res.status(200).json(leaves);
+});// get all leaves by status
+router.get('/filter/status', (req,res)=>{
+    const leave = leaves.filter(l => 
+        l.status === req.query.status
+    );
+
+    if(leave.length === 0){
+        return res.status(404).json({message: 'no leaves found'});
+    }
+
+    res.status(200).json(leave);
+});
+
+//get al by the status
+//router.get('/',(req,res)=>{
+    //const leave = leaves.filter(l => l.status === (req.query.status));
+    //if(leave.length === 0){
+      //  return res.status(404).json({message: 'no  leaves rn'});
+    //}
+    //res.status(200).json(leave);
+//});
+//get leave by id
+router.get('/:id',(req,res)=>{
+    const leave = leaves.find(l=> l.id === Number(req.params.id));
+    if(!leave){
+        return res.status(404).json({message: 'no leave by this id'});
+    }
+    res.status(200).json(leave);
+});
+//update leave
+router.patch('/:id',(req,res)=>{
+    const leave = leaves.find(l=> l.id === Number(req.params.id));
+    if(!leave){
+        return res.status(404).json({message: 'no leave by this id'});
+    }
+    Object.assign(leave,req.body);
+    res.status(200).json(leave);
+});
+//delete 
+router.delete('/:id',(req,res)=>{
+    const i = leaves.findIndex(l=> l.id === Number(req.params.id));
+    if(i === -1){
+        return res.status(404).json({message: 'no leave by this id'});
+    }
+    leaves.splice(i,1);
+    res.status(200).json({message: "leave deleted"});
+});
+module.exports = router;
