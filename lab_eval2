@@ -1,0 +1,124 @@
+const express = require('express');
+const router = express.Router();
+let id = 1;
+let library = [];
+
+
+//add
+router.post('/',(req,res)=>{
+    const{title,author,avail,status} = req.body;
+    if(!title || !author){
+        return res.send(400).json({message: 'fill details '});
+    }
+    if(avail < 0){
+        return res.send(400).json({message: 'cant be negative avail copies '});
+    }
+    const lib = {id:id++,title,author,avail,status:'Available'};
+    library.push(lib);
+    res.send(201).json(library);
+   
+});
+//get
+router.get('/',(req,res)=>{
+    const lib = library.filter(l=> l.author ===(req.query.author));
+    if(lib.length === 0){
+         return res.send(400).json({message: 'no author with such name '});
+    }
+    res.send(200).json(library);
+});
+
+
+exports.module = router;
+
+
+
+
+
+
+
+
+
+
+
+
+ANS 2
+const express = require('express');
+const router = express.Router();
+let id = 1;
+let veh = [];
+
+
+//add
+router.post('/',(req,res)=>{
+    const{name,vnumber,type,status} = req.body;
+    if(!name || !vnumber ){
+        return res.send(400).json({message: 'fill details '});
+    }
+    if(type !== 'general' || type !== 'repair' || type !== 'maintainance' ){
+        return res.send(400).json({message: 'the type is wrong  '});
+    }
+    const v = {id:id++,name,vnumber,type,status:'Booked'};
+    veh.push(v);
+    res.send(201).json(veh);
+   
+});
+//get by id
+router.get('/:id',(req,res)=>{
+    const v = veh.find(v=> v.id ===Number(req.params.id));
+    if(!v){
+         return res.send(400).json({message: 'no such id exists'});
+    }
+    res.send(200).json(veh);
+});
+
+
+// put by id
+router.put('/:id',(req,res)=>{
+    const v=veh.find(v=> v.id ===Number(req.params.id));
+    if(!v){
+         return res.send(404).json({message: 'no such id exists'});
+    }
+    const{name,vnumber,type,status} = req.body;
+    if(!name || !vnumber ){
+        return res.send(400).json({message: 'fill details '});
+    }
+    if(type !== 'general' || type !== 'repair' || type !== 'maintainance' ){
+        return res.send(400).json({message: 'the type is wrong  '});
+    }
+   
+   
+    v.name = name;
+    v.vnumber = vnumber;
+    v.type= type;
+    v.status=status;
+    res.status(200).json(veh);
+
+
+
+
+});
+exports.module = router;
+
+
+const express = require('express');
+const app = express();
+const libRoutes= require('./LABEVAL2/vehicleRoutes');
+app.use(express.json());
+app.get('/veh',vehicleRutes);
+
+
+function isname(req, res, next) {
+    const name = req.headers.name;
+
+
+    if (!name) {
+        res.status(400).json({ message: "Name not present " });
+    } else {
+        next();
+    }
+}
+app.use(isname());
+app.listen(3000,()=>{
+    console.log('running on port 3000');
+});
+
